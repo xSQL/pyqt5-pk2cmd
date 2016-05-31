@@ -1,0 +1,15 @@
+<RCC>
+  <qresource prefix="/">
+    <file>icon/auto.png</file>
+    <file>icon/compile.png</file>
+    <file>icon/eraser.png</file>
+    <file>icon/exit.png</file>
+    <file>icon/icon.png</file>
+    <file>icon/manual.png</file>
+    <file>icon/off.png</file>
+    <file>icon/program.png</file>
+    <file>icon/read.png</file>
+    <file>icon/run.png</file>
+    <file>icon/stop.png</file>
+  </qresource>
+</RCC>
