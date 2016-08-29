@@ -6,7 +6,8 @@ from PyQt5.QtWidgets import QApplication, qApp, QFileDialog, QGraphicsScene
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QIcon
 
-import menu, area
+from gui import menu
+import area
 
 
 class Window(object):
@@ -14,8 +15,8 @@ class Window(object):
     def __init__(self):
         """..."""
         self.app = QApplication(sys.argv)
-        self.ui = loadUi('main.ui')
-        self.ui.setWindowTitle('PicKit2 simple programmer')
+        self.ui = loadUi('gui/ui/main.ui')
+        self.ui.setWindowTitle('PicKit2')
         self.ui.actionOpen.triggered.connect(self.openHex)
         self.ui.actionExit.triggered.connect(qApp.quit)
         self.app.setWindowIcon(QIcon("icon/icon.png"))
@@ -40,7 +41,7 @@ class Window(object):
             )
             self.ui.textBrowser.append(s)
 
-if __name__=="main":
+if __name__=="__main__":
     w = Window()
     w.ui.show()
     sys.exit(w.app.exec_())
