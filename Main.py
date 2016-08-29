@@ -8,6 +8,7 @@ from PyQt5.QtGui import QIcon
 
 import menu, area
 
+
 class Window(object):
     """..."""
     def __init__(self):
@@ -39,7 +40,7 @@ class Window(object):
             )
             self.ui.textBrowser.append(s)
 
-
-w = Window()
-w.ui.show()
-sys.exit(w.app.exec_())
+if __name__=="main":
+    w = Window()
+    w.ui.show()
+    sys.exit(w.app.exec_())
