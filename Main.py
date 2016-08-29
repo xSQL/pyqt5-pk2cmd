@@ -1,12 +1,12 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
-__author__ = 'mediator'
+import sys
 
 from PyQt5.QtWidgets import QApplication, qApp, QFileDialog, QGraphicsScene
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QIcon
-import sys, menu, area
 
+import menu, area
 
 class Window(object):
     """..."""
