@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from constants import Constants
-from binary import BinaryReader
+from .constants import Constants
+from .binary import BinaryReader
 
 
 def read_device_file(device_file):
@@ -30,7 +30,7 @@ def read_device_file(device_file):
             'FamilyID': bin_read.read_uint16(),
             'FamilyType': bin_read.read_uint16(),
             'SearchPriority': bin_read.read_uint16(),
-            'FamilyName': bin_read.read_string(),
+            'family_name': bin_read.read_string(),
             'ProgEntryScript': bin_read.read_uint16(),
             'ProgExitScript': bin_read.read_uint16(),
             'ReadDevIDScript': bin_read.read_uint16(),
@@ -58,8 +58,8 @@ def read_device_file(device_file):
     i=0
     while i<devfile['info']['number_parts']:
         data = {
-            'PartName': bin_read.read_string(),
-            'Family': bin_read.read_uint16(),
+            'part_name': bin_read.read_string(),
+            'family': bin_read.read_uint16(),
             'DeviceID': bin_read.read_uint32(),
             'ProgramMem': bin_read.read_uint32(),
             'EEMem': bin_read.read_uint16(),
@@ -181,9 +181,4 @@ def read_device_file(device_file):
         'parts': parts,
         'scripts': scripts
     }
-
-         
-
-print(read_device_file('PK2DeviceFile.dat'))
-        
 
