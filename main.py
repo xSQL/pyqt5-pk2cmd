@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QApplication, qApp, QFileDialog,\
     QTableWidgetItem as _t
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QIcon
+from PyQt5 import QtCore
 
 from inhx import Inhx8
 from utils import functions as fn
