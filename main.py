@@ -13,7 +13,6 @@ from utils import functions as fn
 
 
 from gui import menu
-import area
 
 
 class Window(object):

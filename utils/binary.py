@@ -7,6 +7,12 @@ class BinaryReader(object):
     def __init__(self, filename):
         """..."""
         self.file = open(filename, 'rb')
+    
+    def __enter__(self):
+        return self
+        
+    def __exit__(self, *args):
+        self.file.close()
 
     def _byte2int(self, b):
         """Return int value of byte"""
