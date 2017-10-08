@@ -11,14 +11,14 @@ def read_device_file(device_file):
     
     with BinaryReader(device_file) as bin_read:
         devfile = {
-            'info': {
+            'Info': {
                 'VersionMajor': bin_read.read_int32(),
                 'VersionMinor': bin_read.read_int32(),
                 'VersionDot': bin_read.read_int32(),
                 'VersionNotes': bin_read.read_string(),
-                'number_families': bin_read.read_int32(),
-                'number_parts': bin_read.read_int32(),
-                'number_scripts': bin_read.read_int32(),
+                'NumberFamilies': bin_read.read_int32(),
+                'NumberParts': bin_read.read_int32(),
+                'NumberScripts': bin_read.read_int32(),
                 'Compatibility': bin_read.read_byte(),
                 'UNUSED1A': bin_read.read_byte(),
                 'UNUSED1B': bin_read.read_uint16(),
@@ -26,12 +26,12 @@ def read_device_file(device_file):
             }
         }
         i=0
-        while i<devfile['info']['number_families']:
+        while i<devfile['Info']['NumberFamilies']:
             data = {
                 'FamilyID': bin_read.read_uint16(),
                 'FamilyType': bin_read.read_uint16(),
                 'SearchPriority': bin_read.read_uint16(),
-                'family_name': bin_read.read_string(),
+                'FamilyName': bin_read.read_string(),
                 'ProgEntryScript': bin_read.read_uint16(),
                 'ProgExitScript': bin_read.read_uint16(),
                 'ReadDevIDScript': bin_read.read_uint16(),
@@ -56,11 +56,15 @@ def read_device_file(device_file):
             families.append(data)
             i+=1
 
+        family_search_table = dict()
+        for family_idx in range(devfile['Info']['NumberFamilies']):
+            search_priority = families[family_idx]['SearchPriority']
+            family_search_table[search_priority] = family_idx
         i=0
-        while i<devfile['info']['number_parts']:
+        while i<devfile['Info']['NumberParts']:
             data = {
-                'part_name': bin_read.read_string(),
-                'family': bin_read.read_uint16(),
+                'PartName': bin_read.read_string(),
+                'Family': bin_read.read_uint16(),
                 'DeviceID': bin_read.read_uint32(),
                 'ProgramMem': bin_read.read_uint32(),
                 'EEMem': bin_read.read_uint16(),
@@ -71,16 +75,16 @@ def read_device_file(device_file):
                 'UserIDAddr': bin_read.read_uint32(),
                 'BandGapMask': bin_read.read_uint32(),
                 # Init config arrays
-                'config_masks': [],
-                'config_blank': []
+                'ConfigMasks': [],
+                'ConfigBlank': []
             }
             j = 0
             while j<Constants.MAX_READ_CFG_MASKS:
-                data['config_masks'].append(bin_read.read_uint16())
+                data['ConfigMasks'].append(bin_read.read_uint16())
                 j+=1
             j = 0
             while j<Constants.MAX_READ_CFG_MASKS:
-                data['config_blank'].append(bin_read.read_uint16())
+                data['ConfigBlank'].append(bin_read.read_uint16())
                 j+=1
 
             data2 = {
@@ -159,27 +163,28 @@ def read_device_file(device_file):
             parts.append(data)
             i+=1
         i = 0
-        while i < devfile['info']['number_scripts']:
+        while i < devfile['Info']['NumberScripts']:
             data = {
                 'ScriptNumber': bin_read.read_uint16(),
                 'ScriptName': bin_read.read_string(),
                 'ScriptVersion': bin_read.read_uint16(),
                 'UNUSED1':  bin_read.read_uint32(),
-                'script_length': bin_read.read_uint16(),
-                'script': [],
-                'comment': ''
+                'ScriptLength': bin_read.read_uint16(),
+                'Script': [],
+                'Comment': ''
             }
             j = 0
-            while j<data['script_length']:
-                data['script'].append(bin_read.read_uint16())
+            while j<data['ScriptLength']:
+                data['Script'].append(bin_read.read_uint16())
                 j += 1
-            data['comment'] = bin_read.read_string()
+            data['Comment'] = bin_read.read_string()
             scripts.append(data)
             i += 1
         return {
-            'devfile': devfile,
-            'families': families,
-            'parts': parts,
-            'scripts': scripts
+            'DevFile': devfile,
+            'Families': families,
+            'Parts': parts,
+            'Scripts': scripts,
+            'FamilySearchTable': family_search_table
         }
 

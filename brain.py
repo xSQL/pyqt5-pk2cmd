@@ -1,12 +1,19 @@
-filename = 'test.hex'
-with open(filename, 'rb') as f:
-    content = f.readlines()
+#filename = 'test.hex'
+#with open(filename, 'rb') as f:
+#    content = f.readlines()
+#
+#for l in content:
+#    line = l[1:-1]
+#
+#    data = line[8:]
+#
+#    chars = ' '.join([data[i:i+2] for i in range(0, len(data), 2)])
+#
+#    print('%s:%s  %s'%(line[2:6], line[6:8], chars))
 
-for l in content:
-    line = l[1:-1]
+a = 256
 
-    data = line[8:]
+def int_to_bytes(x):
+    return x.to_bytes((x.bit_length() + 7) // 8, 'little')
 
-    chars = ' '.join([data[i:i+2] for i in range(0, len(data), 2)])
-
-    print('%s:%s  %s'%(line[2:6], line[6:8], chars))
+print(int_to_bytes(a))

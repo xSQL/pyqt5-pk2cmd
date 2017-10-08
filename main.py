@@ -10,7 +10,7 @@ from PyQt5 import QtCore
 
 from inhx import Inhx8
 from utils import functions as fn
-
+from utils.pk2usb import Pk2USB
 
 from gui import menu
 
@@ -20,58 +20,78 @@ class Window(object):
     def __init__(self):
         """..."""
         self.devfile = fn.read_device_file('PK2DeviceFile.dat')
-        print(self.devfile['scripts'][3])
+        self.usb = Pk2USB(self.devfile)
+        self.usb.set_vdd_voltage(4.5, 1.0)
+
+
         self.app = QApplication(sys.argv)
         self.ui = loadUi('gui/ui/main.ui')
         self.ui.setWindowTitle('PicKit2 - programmer')
-        self.ui.actionOpen.triggered.connect(self.openHex)
+        self.ui.actionOpen.triggered.connect(self.open_hex)
         self.ui.actionExit.triggered.connect(qApp.quit)
         self.app.setWindowIcon(QIcon("gui/qrc/icon/icon.png"))
-        
-        self.ui.familyBox.currentIndexChanged.connect(self.changeFamily)
-        self.ui.partsBox.currentIndexChanged.connect(self.changePart)        
-        
-        for family in self.devfile['families']:
-            self.ui.familyBox.addItem(family['family_name'])
-                
-    def changeFamily(self, id):
+        self.ui.familyBox.currentIndexChanged.connect(self.change_family)
+        self.ui.partsBox.currentIndexChanged.connect(self.change_part)
+        self.ui.VddCheckBox.stateChanged.connect(self.vdd_change)
+
+        for family in self.devfile['Families']:
+            self.ui.familyBox.addItem(family['FamilyName'])
+
+    def vdd_change(self, state, *args, **kwargs):
+        """..."""
+        if state:
+            self.usb.vdd_on()
+        else:
+            self.usb.vdd_off()
+
+    def change_family(self, id):
         self.ui.partsBox.clear()
         part_list = [
-            (p, p['part_name']) for p in self.devfile['parts']\
-            if p['family']==id
+            (p, p['PartName']) for p in self.devfile['Parts']\
+            if p['Family']==id
         ]
+        self.family = id
         self.part_list = [p[0] for p in part_list]
         self.part_name_list = [p[1] for p in part_list]
         self.ui.partsBox.addItems(self.part_name_list)
 
-    def changePart(self, id):
+    def change_part(self, id):
         self.part = self.part_list[id]
-        self.initProgramTable()
-        self.initEETable()
+        self.usb.device = self.part
+        self.usb.family = self.family
+        vpp = self.devfile['Families'][self.family]['Vpp']
+        print(vpp)
+        self.usb.set_vpp_voltage(vpp, 0.85)
 
-    def initProgramTable(self):
+        self.usb.vdd_on()
+        self.usb.download_part_scripts(self.family)
+
+        print(self.usb.read_pk_voltages())
+        print(hex(self.usb.read_osccal()))
+        self.usb.vdd_off()
+        self.init_program_table()
+        self.init_ee_table()
+
+    def init_program_table(self):
         #Clear table
         self.ui.codeTable.model().removeRows(0, self.ui.codeTable.rowCount());
         self.ui.codeTable.model().removeColumns(0, self.ui.codeTable.columnCount());        
-        
         for i in range(9):
             self.ui.codeTable.insertColumn(i)
             self.ui.codeTable.setColumnWidth(i, 48)
         self.ui.codeTable.setColumnWidth(0, 64)
-
         for i in range(int(self.part['ProgramMem']/8)):
             self.ui.codeTable.insertRow(i)
             self.ui.codeTable.setItem(
                 i,
                 0,
                 _t(str(hex(i*8)))
-            )            
-        
-    def initEETable(self):
+            )
+
+    def init_ee_table(self):
         #Clear table
         self.ui.dataTable.model().removeRows(0, self.ui.dataTable.rowCount());
         self.ui.dataTable.model().removeColumns(0, self.ui.dataTable.columnCount());        
-        
         for i in range(9):
             self.ui.dataTable.insertColumn(i)
             self.ui.dataTable.setColumnWidth(i, 48)
@@ -83,9 +103,9 @@ class Window(object):
                 i,
                 0,
                 _t(str(hex(self.part['EEAddr']+i*8)))
-            )            
-        
-    def openHex(self,):
+            )
+
+    def open_hex(self,):
         """..."""
         file = QFileDialog.getOpenFileName()
 

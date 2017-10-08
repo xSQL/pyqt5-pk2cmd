@@ -33,7 +33,6 @@ class BaseIntelHexParser(object):
 
                     i+=1
 
-
     def getData(self):
         return self.address_cells
 
