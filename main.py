@@ -21,19 +21,19 @@ class Window(object):
         """..."""
         self.devfile = fn.read_device_file('PK2DeviceFile.dat')
         self.usb = Pk2USB(self.devfile)
-        self.usb.set_vdd_voltage(4.5, 1.0)
-
-
+        volts = self.usb.read_pk_voltages()
+        print(self.usb.detect_device())
         self.app = QApplication(sys.argv)
         self.ui = loadUi('gui/ui/main.ui')
         self.ui.setWindowTitle('PicKit2 - programmer')
         self.ui.actionOpen.triggered.connect(self.open_hex)
+        self.ui.actionRead.triggered.connect(self.read_device)
         self.ui.actionExit.triggered.connect(qApp.quit)
         self.app.setWindowIcon(QIcon("gui/qrc/icon/icon.png"))
         self.ui.familyBox.currentIndexChanged.connect(self.change_family)
         self.ui.partsBox.currentIndexChanged.connect(self.change_part)
         self.ui.VddCheckBox.stateChanged.connect(self.vdd_change)
-
+        self.ui.setVdd.value = volts['vdd']
         for family in self.devfile['Families']:
             self.ui.familyBox.addItem(family['FamilyName'])
 
@@ -57,21 +57,16 @@ class Window(object):
 
     def change_part(self, id):
         self.part = self.part_list[id]
+
         self.usb.device = self.part
         self.usb.family = self.family
-        vpp = self.devfile['Families'][self.family]['Vpp']
-        print(vpp)
-        self.usb.set_vpp_voltage(vpp, 0.85)
-
-        self.usb.vdd_on()
         self.usb.download_part_scripts(self.family)
-
-        print(self.usb.read_pk_voltages())
-        print(hex(self.usb.read_osccal()))
-        self.usb.vdd_off()
         self.init_program_table()
         self.init_ee_table()
 
+    def read_device(self):
+        print([hex(a) for a in self.usb.device_read()['memory']])
+    
     def init_program_table(self):
         #Clear table
         self.ui.codeTable.model().removeRows(0, self.ui.codeTable.rowCount());

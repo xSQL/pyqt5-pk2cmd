@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
+    <width>510</width>
     <height>600</height>
    </rect>
   </property>
@@ -18,13 +18,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>600</width>
+    <width>510</width>
     <height>600</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>600</width>
+    <width>510</width>
     <height>600</height>
    </size>
   </property>
@@ -75,6 +75,28 @@
       <bool>false</bool>
      </attribute>
     </widget>
+    <widget class="QDoubleSpinBox" name="doubleSpinBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>90</y>
+       <width>62</width>
+       <height>24</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QStackedWidget" name="stackedWidget">
+     <property name="geometry">
+      <rect>
+       <x>460</x>
+       <y>70</y>
+       <width>120</width>
+       <height>80</height>
+      </rect>
+     </property>
+     <widget class="QWidget" name="page_3"/>
+     <widget class="QWidget" name="page_4"/>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
@@ -117,74 +139,111 @@
      </attribute>
     </widget>
    </widget>
-   <widget class="QComboBox" name="familyBox">
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>60</x>
+      <x>19</x>
       <y>10</y>
-      <width>141</width>
-      <height>22</height>
+      <width>461</width>
+      <height>51</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QComboBox" name="partsBox">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>10</y>
-      <width>121</width>
-      <height>22</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>59</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Family:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>10</y>
-      <width>81</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Part name:</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="VddCheckBox">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>10</y>
-      <width>84</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Vdd On</string>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="spinBox">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>10</y>
-      <width>55</width>
-      <height>24</height>
-     </rect>
-    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QGroupBox" name="groupBox_4">
+       <property name="title">
+        <string>Family</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="verticalLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>131</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QComboBox" name="familyBox"/>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_5">
+       <property name="title">
+        <string>Part</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="verticalLayoutWidget_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>131</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="QComboBox" name="partsBox"/>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_3">
+       <property name="title">
+        <string>VDD</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+       <widget class="QWidget" name="horizontalLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>131</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QCheckBox" name="VddCheckBox">
+           <property name="text">
+            <string>On</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="setVdd"/>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -192,8 +251,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>600</width>
-     <height>20</height>
+     <width>510</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -222,6 +281,7 @@
    <addaction name="actionRead"/>
    <addaction name="actionProgram"/>
    <addaction name="actionErase"/>
+   <addaction name="actionVerify"/>
    <addaction name="actionCheckBlank"/>
   </widget>
   <action name="actionRead">
@@ -245,7 +305,7 @@
   <action name="actionProgram">
    <property name="icon">
     <iconset resource="../qrc/menu.qrc">
-     <normaloff>:/icon/program.png</normaloff>:/icon/program.png</iconset>
+     <normaloff>:/icon/write.png</normaloff>:/icon/write.png</iconset>
    </property>
    <property name="text">
     <string>Program device</string>
@@ -276,7 +336,7 @@
   <action name="actionErase">
    <property name="icon">
     <iconset resource="../qrc/menu.qrc">
-     <normaloff>:/icon/eraser.png</normaloff>:/icon/eraser.png</iconset>
+     <normaloff>:/icon/clear.png</normaloff>:/icon/clear.png</iconset>
    </property>
    <property name="text">
     <string>Erase</string>
@@ -288,13 +348,22 @@
   <action name="actionCheckBlank">
    <property name="icon">
     <iconset resource="../qrc/menu.qrc">
-     <normaloff>:/icon/blank.png</normaloff>:/icon/blank.png</iconset>
+     <normaloff>:/icon/empty.png</normaloff>:/icon/empty.png</iconset>
    </property>
    <property name="text">
     <string>Check blank</string>
    </property>
    <property name="toolTip">
     <string>Check blank</string>
+   </property>
+  </action>
+  <action name="actionVerify">
+   <property name="icon">
+    <iconset resource="../qrc/menu.qrc">
+     <normaloff>:/icon/verify.png</normaloff>:/icon/verify.png</iconset>
+   </property>
+   <property name="text">
+    <string>Verify</string>
    </property>
   </action>
  </widget>
