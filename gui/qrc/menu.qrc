@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="/">
+    <file>icon/detect.png</file>
     <file>icon/clear.png</file>
     <file>icon/empty.png</file>
     <file>icon/read.png</file>

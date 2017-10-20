@@ -22,7 +22,9 @@ class Window(object):
         self.devfile = fn.read_device_file('PK2DeviceFile.dat')
         self.usb = Pk2USB(self.devfile)
         volts = self.usb.read_pk_voltages()
-        print(self.usb.detect_device())
+        self.usb.detect_device()
+        print(volts)
+
         self.app = QApplication(sys.argv)
         self.ui = loadUi('gui/ui/main.ui')
         self.ui.setWindowTitle('PicKit2 - programmer')
@@ -32,17 +34,21 @@ class Window(object):
         self.app.setWindowIcon(QIcon("gui/qrc/icon/icon.png"))
         self.ui.familyBox.currentIndexChanged.connect(self.change_family)
         self.ui.partsBox.currentIndexChanged.connect(self.change_part)
-        self.ui.VddCheckBox.stateChanged.connect(self.vdd_change)
-        self.ui.setVdd.value = volts['vdd']
+        self.ui.VddCheckBox.stateChanged.connect(self.vdd_state_changed)
+        self.ui.VddSpinBox.valueChanged.connect(self.vdd_value_changed)
+        self.ui.VddSpinBox.setValue(volts['vdd'])
         for family in self.devfile['Families']:
             self.ui.familyBox.addItem(family['FamilyName'])
 
-    def vdd_change(self, state, *args, **kwargs):
+    def vdd_state_changed(self, state, *args, **kwargs):
         """..."""
         if state:
             self.usb.vdd_on()
         else:
             self.usb.vdd_off()
+
+    def vdd_value_changed(self, value, *args, **kwargs):
+        self.usb.set_vdd_voltage(value, 0.85)
 
     def change_family(self, id):
         self.ui.partsBox.clear()
@@ -66,7 +72,8 @@ class Window(object):
 
     def read_device(self):
         print([hex(a) for a in self.usb.device_read()['memory']])
-    
+        print(self.devfile['Families'][self.usb.family])
+
     def init_program_table(self):
         #Clear table
         self.ui.codeTable.model().removeRows(0, self.ui.codeTable.rowCount());
@@ -80,8 +87,8 @@ class Window(object):
             self.ui.codeTable.setItem(
                 i,
                 0,
-                _t(str(hex(i*8)))
-            )
+                _t('{:04x}'.format(i*8).upper())
+             )
 
     def init_ee_table(self):
         #Clear table
@@ -107,7 +114,8 @@ class Window(object):
         inhx = Inhx8(file[0])
 
         data = inhx.getData()
-
+        self.ui.dataTable.model().removeRows(0, self.ui.dataTable.rowCount());
+        self.ui.dataTable.model().removeColumns(0, self.ui.dataTable.columnCount());    
 
         for i in range(9):
             self.ui.codeTable.insertColumn(i)
@@ -120,7 +128,7 @@ class Window(object):
             self.ui.codeTable.setItem(
                 j,
                 0,
-                _t(str(hex(j*8)))
+                _t('{:04x}'.format(j*8).upper())
             )
             for i in range(8):
                 a = j*8+i;

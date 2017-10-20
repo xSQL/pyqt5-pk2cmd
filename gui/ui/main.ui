@@ -35,9 +35,9 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>150</y>
-      <width>481</width>
+      <width>491</width>
       <height>211</height>
      </rect>
     </property>
@@ -47,10 +47,10 @@
     <widget class="QTableWidget" name="codeTable">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>20</y>
-       <width>461</width>
-       <height>192</height>
+       <x>10</x>
+       <y>30</y>
+       <width>471</width>
+       <height>171</height>
       </rect>
      </property>
      <property name="font">
@@ -75,35 +75,13 @@
       <bool>false</bool>
      </attribute>
     </widget>
-    <widget class="QDoubleSpinBox" name="doubleSpinBox">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>90</y>
-       <width>62</width>
-       <height>24</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QStackedWidget" name="stackedWidget">
-     <property name="geometry">
-      <rect>
-       <x>460</x>
-       <y>70</y>
-       <width>120</width>
-       <height>80</height>
-      </rect>
-     </property>
-     <widget class="QWidget" name="page_3"/>
-     <widget class="QWidget" name="page_4"/>
-    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>390</y>
-      <width>471</width>
+      <x>10</x>
+      <y>370</y>
+      <width>491</width>
       <height>141</height>
      </rect>
     </property>
@@ -113,10 +91,10 @@
     <widget class="QTableWidget" name="dataTable">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>20</y>
-       <width>464</width>
-       <height>121</height>
+       <x>10</x>
+       <y>30</y>
+       <width>471</width>
+       <height>91</height>
       </rect>
      </property>
      <attribute name="horizontalHeaderVisible">
@@ -237,13 +215,23 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="setVdd"/>
+          <widget class="QDoubleSpinBox" name="VddSpinBox"/>
          </item>
         </layout>
        </widget>
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QTableView" name="tableView">
+    <property name="geometry">
+     <rect>
+      <x>25</x>
+      <y>70</y>
+      <width>461</width>
+      <height>71</height>
+     </rect>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -269,6 +257,12 @@
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
+   <property name="iconSize">
+    <size>
+     <width>36</width>
+     <height>36</height>
+    </size>
+   </property>
    <property name="floatable">
     <bool>false</bool>
    </property>
@@ -283,6 +277,7 @@
    <addaction name="actionErase"/>
    <addaction name="actionVerify"/>
    <addaction name="actionCheckBlank"/>
+   <addaction name="actionDetectDevice"/>
   </widget>
   <action name="actionRead">
    <property name="checkable">
@@ -364,6 +359,18 @@
    </property>
    <property name="text">
     <string>Verify</string>
+   </property>
+  </action>
+  <action name="actionDetectDevice">
+   <property name="icon">
+    <iconset resource="../qrc/menu.qrc">
+     <normaloff>:/icon/detect.png</normaloff>:/icon/detect.png</iconset>
+   </property>
+   <property name="text">
+    <string>Detect device</string>
+   </property>
+   <property name="toolTip">
+    <string>Device detect</string>
    </property>
   </action>
  </widget>
